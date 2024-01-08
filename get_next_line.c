@@ -91,7 +91,7 @@ char    *get_next_line(int fd)
     static char *str;
     char        *ext_line = NULL;
     
-    if(fd < 0 || BUFFER_SIZE <= 0 || read(fd, ext_line, 0) < 0)
+    if(fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
         // 1. hnaya i need to read man fd l buffer.
         str = read_fd_to_buffer(str, fd);// i think this function is done || it reades from fd to the buffer and it joins str with the buffer

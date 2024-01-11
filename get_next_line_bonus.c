@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oer-refa <oer-refa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/14 10:12:41 by oer-refa          #+#    #+#             */
-/*   Updated: 2024/01/11 10:05:16 by oer-refa         ###   ########.fr       */
+/*   Created: 2024/01/10 18:12:12 by oer-refa          #+#    #+#             */
+/*   Updated: 2024/01/11 10:06:49 by oer-refa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*rest_str(char *str)
 {
@@ -93,43 +93,21 @@ char	*read_fd_to_buffer(char *str, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[OPEN_MAX];
 	char		*ext_line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
-	str = read_fd_to_buffer(str, fd);
-	if (str == NULL)
+	str[fd] = read_fd_to_buffer(str[fd], fd);
+	if (str[fd] == NULL)
 		return (NULL);
-	ext_line = only_line(str);
-	str = rest_str(str);
+	ext_line = only_line(str[fd]);
+	str[fd] = rest_str(str[fd]);
 	return (ext_line);
 }
-
-// int main(void)
+// int main()
 // {
-//     int fd;
-//     char *line;
-
-//     // Open a file for reading
-//     fd = open("example.txt", O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (1);
-//     }
-
-//     line = get_next_line(fd);
-//     printf("%s\n", line);
-//     // Read and print each line until the end of the file
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("%s\n", line);
-//         free(line);
-// Assuming you allocate memory for each line in get_next_line
-//     }
-//     // Close the file
-//     close(fd);
-
-//     return (0);
+// 	int fd = open ("example.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
 // }
